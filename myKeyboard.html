@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <main>
+        <div class="wrapper" id="wrapper"></div>
+
+    </main>
+
+    <script>
+        var keys = {
+            '0': { 0: 'q', 1: 'w', 2: 'e', 3: 'r', 4: 't', 5: 'y', 6: 'u', 7: 'i', 8: 'o', 9: 'p', length: 10 },
+            '1': { 0: 'a', 1: 's', 2: 'd', 3: 'f', 4: 'g', 5: 'h', 6: 'j', 7: 'k', 8: 'l', length: 9 },
+            '2': { 0: 'z', 1: 'x', 2: 'c', 3: 'v', 4: 'b', 5: 'n', 6: 'm', length: 7 },
+            'length': 3
+        }
+
+        var hash = {
+            'q': 'qq.com', 'w': 'weibo.com', 'e': 'ele.me',
+            'r': 'renren.com', 't': 'taobao.com', 'y': 'youtube.com',
+            'u': undefined, 'i': 'iqiyi.com', 'o': 'opera.com',
+            'p': undefined, 'a': 'acfun.tv', 's': 'sohu.com', 'h': 'hupu.com',
+            'z': 'zhihu.com', 'b': 'baidu.com', 'm': undefined
+        }
+        var hashInLocalStorage = JSON.parse(localStorage.getItem('zzz') || 'null');
+        if (hashInLocalStorage) {
+            hash = hashInLocalStorage;
+        }
+
+        for (var rowIndex = 0; rowIndex < keys.length; rowIndex++) {
+            var rowDiv = document.createElement('div');
+            rowDiv.className = 'row';
+            wrapper.appendChild(rowDiv);
+            var rowData = keys[rowIndex];
+            for (var kbdIndex = 0; kbdIndex < rowData.length; kbdIndex++) {
+                var kbd = document.createElement('kbd');
+                rowDiv.appendChild(kbd);
+                var span = document.createElement('span');
+                span.textContent = rowData[kbdIndex];
+                kbd.appendChild(span);
+                var img = document.createElement('img');
+                img.className = 'icon';
+                kbd.appendChild(img);
+                if (hash[rowData[kbdIndex]]) {
+                    img.src = 'http://' + hash[rowData[kbdIndex]] + '/favicon.ico';
+                } else {
+                    img.src = './img/blackpoint.png';
+                }
+                img.onerror = function (xxx) {
+                    xxx.target.src = './img/blackpoint.png'
+                }
+                var edit = document.createElement('img')
+                edit.className = 'edit';
+                edit.id = rowData[kbdIndex];
+                kbd.appendChild(edit);
+                edit.src = './img/edit.png';
+                edit.onclick = function (e) {
+                    edit2 = e['target'];
+                    var img2 = edit2.previousSibling;
+                    var key = edit2['id'];
+                    x = prompt('请给我一个网址');
+                    hash[key] = x;
+                    img2.src = 'http://' + x + '/favicon.ico';
+                    img2.onerror = function (xxx) {
+                        xxx.target.src = './img/blackpoint.png'
+                    }
+                    localStorage.setItem('zzz',JSON.stringify(hash));
+                }
+
+            }
+        }
+
+        document.onkeypress = function (a) {
+            var key = a['key'];
+            website = hash[key];
+            window.open('http://' + website, '_blank');
+        }
+
+    </script>
+</body>
+
+</html>
