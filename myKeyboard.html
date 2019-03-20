@@ -43,6 +43,12 @@
             for (var kbdIndex = 0; kbdIndex < rowData.length; kbdIndex++) {
                 var kbd = document.createElement('kbd');
                 rowDiv.appendChild(kbd);
+                kbd.onmousedown = function(){
+                    this.className = 'active';
+                }
+                kbd.onmouseup = function(){
+                    this.classList.remove('active');
+                }
                 var span = document.createElement('span');
                 span.textContent = rowData[kbdIndex];
                 kbd.appendChild(span);
