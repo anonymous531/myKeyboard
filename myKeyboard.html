@@ -87,7 +87,12 @@
         document.onkeypress = function (a) {
             var key = a['key'];
             website = hash[key];
-            window.open('http://' + website, '_blank');
+            if(website){
+                window.open('http://' + website, '_blank');
+            }else{
+                alert('该页面不存在，可以自行编辑哦~~');
+            }
+            
         }
 
     </script>
